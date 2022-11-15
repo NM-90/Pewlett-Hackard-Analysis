@@ -58,19 +58,8 @@ retirement_titles.last_name,
 FROM retirement_titles
 
 
---10.  Use the DISTINCT ON to retrieve the first recurrence of the employee number. 
+--10.  Use the DISTINCT ON to retrieve the first occurrence of the employee number. 
 -- Use Dictinct with Orderby to remove duplicate rows
---SELECT DISTINCT ON (______) _____,
---______,
---______,
---______
-
---INTO nameyourtable
---FROM _______
---WHERE _______
---ORDER BY _____, _____ DESC;
-
--- Try
 
 SELECT DISTINCT ON (employees.emp_no)
 emp_no,
@@ -153,5 +142,120 @@ GROUP BY title
 ORDER BY COUNT(title) DESC;
 
 SELECT * FROM retiring_titles
+
+---	DELIVERABLE 2 ---- 
+
+--1. Retrieve the emp_no, first_name, last_name, and birth_date columns from the Employees table. 
+SELECT emp_no, first_name, last_name, birth_date
+FROM employees
+
+--2. Retrieve the from_date and to_date columns from the Department Employee table.
+SELECT from_date, to_date
+FROM dept_emp
+
+SELECT * FROM dept_emp
+
+--3. Retrieve the title column from the Titles table.
+SELECT title
+FROM titles
+
+--4. Use a DISTINCT ON statement to retrieve the first occurrence of the employee number for each set of rows
+--defined by the ON() clause. 
+
+SELECT DISTINCT ON (employees.emp_no)
+emp_no,
+first_name,
+last_name,
+birth_date
+FROM employees
+WHERE (birth_date BETWEEN '1965-01-01' and '1965-12-31')
+ORDER BY emp_no
+
+--5. Create a new table using the INTO clause.
+
+SELECT DISTINCT ON (employees.emp_no)
+emp_no,
+first_name,
+last_name,
+birth_date
+INTO mentorship_eligibility
+FROM employees
+ORDER BY emp_no 
+
+DROP TABLE mentorship_elibility
+
+SELECT * FROM mentorship_eligibility
+
+--6. Join the Employees and the Department Employee tables on the primary key
+
+SELECT DISTINCT ON (employees.emp_no) first_name, last_name, birth_date, 
+dept_emp.from_date,
+dept_emp.to_date
+INTO mentorship_eligibility
+FROM employees
+INNER JOIN dept_emp 
+ON employeeS.emp_no = dept_emp.emp_no
+WHERE (to_date BETWEEN '9999-01-01' and '9999-01-01');
+
+SELECT * FROM mentorship_eligibility
+
+DROP TABLE mentorship_elibility
+
+--7. Join the Employees and the Titles tables on the primary key
+
+SELECT DISTINCT ON (employees.emp_no) first_name, last_name, birth_date, 
+dept_emp.from_date,
+dept_emp.to_date,
+titles.title
+INTO mentorship_eligibility
+FROM employees
+INNER JOIN dept_emp 
+ON employeeS.emp_no = dept_emp.emp_no
+INNER JOIN titles
+ON employees.emp_no = titles.emp_no
+WHERE (dept_emp.to_date BETWEEN '9999-01-01' and '9999-01-01');
+
+SELECT * FROM mentorship_eligibility
+
+DROP TABLE mentorship_elibility
+
+--8. Filter the data on the to_date column to all the current employees, then filter
+--the data on the birth_date columns to get all the employees whose
+--birth dates are between January 1, 1965 and December 31, 1965. 
+
+SELECT DISTINCT ON (employees.emp_no) first_name, last_name, birth_date, 
+dept_emp.from_date,
+dept_emp.to_date,
+titles.title
+INTO mentorship_eligibility
+FROM employees
+INNER JOIN dept_emp 
+ON employeeS.emp_no = dept_emp.emp_no
+INNER JOIN titles
+ON employees.emp_no = titles.emp_no
+WHERE (dept_emp.to_date BETWEEN '9999-01-01' and '9999-01-01');
+AND (employees.birth_date BETWEEN '1965-01-01' and '1965-12-31')
+
+
+--9. Order the table by the employee number
+
+SELECT DISTINCT ON (employees.emp_no) employees.emp_no, first_name, last_name, birth_date, 
+dept_emp.from_date,
+dept_emp.to_date,
+titles.title
+INTO mentorship_eligibility
+FROM employees
+INNER JOIN dept_emp 
+ON employeeS.emp_no = dept_emp.emp_no
+INNER JOIN titles
+ON employees.emp_no = titles.emp_no
+WHERE (birth_date BETWEEN '1965-01-01' and '1965-12-31')
+AND (dept_emp.to_date BETWEEN '9999-01-01' and '9999-01-01')
+ORDER BY employees.emp_no;
+
+SELECT * FROM mentorship_eligibility
+
+
+--10.  Export the Mentorship Elibility table as mentorship_eligibility.csv
 
 
