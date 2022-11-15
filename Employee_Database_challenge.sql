@@ -90,7 +90,7 @@ FROM titles
 Where(to_date BETWEEN '9999-01-01' and '9999-01-01')
 
 --12.  Create a Unique Titles table using the INTO clause
-SELECT employees.emp_no, first_name, last_name, titles.title
+SELECT employees.emp_no, first_name, last_name, titles.title, titles.to_date
 INTO unique_titles
 FROM employees
 Left Join titles
@@ -100,8 +100,23 @@ AND (to_date BETWEEN '9999-01-01' and '9999-01-01');
 
 SELECT * FROM unique_titles
 
---13. Sort the Unique Titles table in ascending order by the employee number and descending order
---by the last date (i.e., to_dat) of the most recent title.
+--13. Sort the Unique Titles table in ascending order by the employee number 
+--and descending order  by the last date (i.e., to_date) of the most recent title.
 
+SELECT DISTINCT ON (unique_titles.emp_no)
+emp_no,
+first_name,
+last_name,
+to_date
+INTO new_unique_titles
+FROM unique_titles
+ORDER BY emp_no ASC, to_date DESC;
+
+SELECT * from new_unique_titles
+
+
+
+--14.  Export the Unique Titles table as unique_titles.csv and save it to your Data
+--folder in the Pewlett-Hackard-Analysis folder. 
 
 
