@@ -107,6 +107,7 @@ SELECT DISTINCT ON (unique_titles.emp_no)
 emp_no,
 first_name,
 last_name,
+title,
 to_date
 INTO new_unique_titles
 FROM unique_titles
@@ -114,9 +115,43 @@ ORDER BY emp_no ASC, to_date DESC;
 
 SELECT * from new_unique_titles
 
-
-
 --14.  Export the Unique Titles table as unique_titles.csv and save it to your Data
 --folder in the Pewlett-Hackard-Analysis folder. 
+--Done
+
+--15. Confirm table. Done. 
+--My table includes the to_date
+
+--16. Write another query in the Employee_Database_challenge.sql file to retrieve 
+--the number of employees by their most recent job title who are about to retire.
+
+--17. First, retrieve the number of titles from the Unique Titles Table. 
+
+SELECT COUNT(new_unique_titles.emp_no),
+title
+FROM new_unique_titles 
+GROUP BY title 
+ORDER BY COUNT(title)
+
+--18.  Then, create a Retiring Titles table to hold the required information.
+
+SELECT COUNT(new_unique_titles.emp_no),
+title
+INTO retiring_titles
+FROM new_unique_titles 
+GROUP BY title 
+ORDER BY COUNT(title)
+
+DROP TABLE retiring_titles
+
+--19. Group the table by title, then sorT the count column in descending order.
+SELECT COUNT(new_unique_titles.emp_no),
+title
+INTO retiring_titles
+FROM new_unique_titles 
+GROUP BY title 
+ORDER BY COUNT(title) DESC;
+
+SELECT * FROM retiring_titles
 
 
